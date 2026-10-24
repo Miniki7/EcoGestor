@@ -1,78 +1,104 @@
 # Modelo de domínio
 
-> No mínimo **3 entidades** e pelo menos **um relacionamento**. As linhas marcadas com *(exemplo)* mostram o nível de detalhe esperado: apague e escreva as do grupo.
-
 ## Entidades
 
 Uma tabela por entidade. A coluna **Regra** é o que vira `NOT NULL`, `UNIQUE` ou validação no DTO.
 
-### Livro *(exemplo)*
+### Usuario
 
-Um exemplar do acervo que pode ser emprestado.
-
-| Atributo | Tipo Java | Coluna | Obrigatório | Regra |
-|---|---|---|---|---|
-| `id` | `Long` | `id` | sim | Gerado pelo banco |
-| `titulo` | `String` | `titulo` | sim | Até 255 caracteres |
-| `isbn` | `String` | `isbn` | sim | Até 20 caracteres. Não é único: exemplares do mesmo título repetem o ISBN |
-| `disponivel` | `boolean` | `disponivel` | sim | Nasce `true`; o cliente não controla |
-
-### {{Entidade 2}}
-
-{{O que ela representa, em uma linha.}}
+Um usuário (gestor, responsável ou administrador) cadastrado no EcoGestor.
 
 | Atributo | Tipo Java | Coluna | Obrigatório | Regra |
 |---|---|---|---|---|
-| `id` | `Long` | `id` | sim | Gerado pelo banco |
-| ... | ... | ... | ... | ... |
+| `id` | `Integer` | `id` | sim | Gerado pelo banco |
+| `nome` | `String` | `nome` | sim | Até 100 caracteres |
+| `email` | `String` | `email` | sim | Até 150 caracteres. Único |
+| `senha` | `String` | `senha` | sim | Até 255 caracteres |
+| `tipoUsuario` | `String` | `tipo_usuario` | sim | Até 50 caracteres |
+| `dataCadastro` | `LocalDateTime` | `data_cadastro` | não | Preenchido automaticamente; o cliente não controla |
 
-### {{Entidade 3}}
+### IndicadorAmbiental
 
-{{O que ela representa, em uma linha.}}
+Os indicadores ambientais de um usuário em determinado mês (água, energia e resíduos).
 
 | Atributo | Tipo Java | Coluna | Obrigatório | Regra |
 |---|---|---|---|---|
-| `id` | `Long` | `id` | sim | Gerado pelo banco |
-| ... | ... | ... | ... | ... |
+| `id` | `Integer` | `id` | sim | Gerado pelo banco |
+| `usuario` | `Usuario` | `id_usuario` | sim | Chave estrangeira para `usuarios(id)` |
+| `consumoAgua` | `BigDecimal` | `consumo_agua` | sim | `NUMERIC(10,2)`; não negativo (validação no DTO) |
+| `consumoEnergia` | `BigDecimal` | `consumo_energia` | sim | `NUMERIC(10,2)`; não negativo (validação no DTO) |
+| `residuosGerados` | `BigDecimal` | `residuos_gerados` | sim | `NUMERIC(10,2)`; não negativo (validação no DTO) |
+| `residuosReciclados` | `BigDecimal` | `residuos_reciclados` | sim | `NUMERIC(10,2)`; não pode superar `residuosGerados` (R2) |
+| `mesReferencia` | `LocalDate` | `mes_referencia` | sim | Único por usuário: `UNIQUE (id_usuario, mes_referencia)` (R1) |
+| `observacao` | `String` | `observacao` | não | Texto livre |
+| `dataCadastro` | `LocalDateTime` | `data_cadastro` | não | Preenchido automaticamente; o cliente não controla |
+
+### MetaAmbiental
+
+Uma meta de sustentabilidade definida para um indicador e um período.
+
+| Atributo | Tipo Java | Coluna | Obrigatório | Regra |
+|---|---|---|---|---|
+| `id` | `Integer` | `id` | sim | Gerado pelo banco |
+| `usuario` | `Usuario` | `id_usuario` | sim | Chave estrangeira para `usuarios(id)` |
+| `indicador` | `IndicadorAmbiental` | `id_indicador` | sim | Chave estrangeira para `indicadores_ambientais(id)` |
+| `descricao` | `String` | `descricao` | sim | Até 200 caracteres |
+| `valorMeta` | `BigDecimal` | `valor_meta` | sim | `NUMERIC(10,2)`; não negativo (validação no DTO) |
+| `dataInicio` | `LocalDate` | `data_inicio` | sim | Início da vigência |
+| `dataFim` | `LocalDate` | `data_fim` | sim | Não pode ser anterior a `dataInicio` (`CHECK` no banco) |
+| `status` | `String` | `status` | sim | Até 100 caracteres. Nasce `pendente` |
 
 ## Relacionamentos
 
 | De | Para | Tipo | No banco | No código |
 |---|---|---|---|---|
-| Emprestimo *(exemplo)* | Leitor | muitos para um | `emprestimos.leitor_id` referencia `leitores(id)` | `@ManyToOne` em `Emprestimo` |
-| Emprestimo *(exemplo)* | Livro | muitos para um | `emprestimos.livro_id` referencia `livros(id)` | `@ManyToOne` em `Emprestimo` |
-| ... | ... | ... | ... | ... |
+| IndicadorAmbiental | Usuario | muitos para um | `indicadores_ambientais.id_usuario` referencia `usuarios(id)` | `@ManyToOne` em `IndicadorAmbiental` |
+| MetaAmbiental | Usuario | muitos para um | `metas_ambientais.id_usuario` referencia `usuarios(id)` | `@ManyToOne` em `MetaAmbiental` |
+| MetaAmbiental | IndicadorAmbiental | muitos para um | `metas_ambientais.id_indicador` referencia `indicadores_ambientais(id)` | `@ManyToOne` em `MetaAmbiental` |
+| Usuario | IndicadorAmbiental | um para muitos | lado inverso, sem coluna própria | `@OneToMany(mappedBy = "usuario")` em `Usuario` |
 
 ## Diagrama ER
 
-O GitHub desenha o bloco abaixo sozinho. Troque pelas tabelas do grupo, com os nomes das colunas como estarão no banco (`snake_case`).
+O GitHub desenha o bloco abaixo sozinho.
 
 ```mermaid
 erDiagram
-    LEITORES ||--o{ EMPRESTIMOS : "faz"
-    LIVROS ||--o{ EMPRESTIMOS : "aparece em"
+    USUARIOS ||--o{ INDICADORES_AMBIENTAIS : "registra"
+    USUARIOS ||--o{ METAS_AMBIENTAIS : "define"
+    INDICADORES_AMBIENTAIS ||--o{ METAS_AMBIENTAIS : "tem meta"
 
-    LEITORES {
-        bigint id PK
+    USUARIOS {
+        int id PK
         varchar nome
         varchar email
+        varchar senha
+        varchar tipo_usuario
+        timestamp data_cadastro
     }
-    LIVROS {
-        bigint id PK
-        varchar titulo
-        varchar isbn
-        boolean disponivel
+    INDICADORES_AMBIENTAIS {
+        int id PK
+        int id_usuario FK
+        numeric consumo_agua
+        numeric consumo_energia
+        numeric residuos_gerados
+        numeric residuos_reciclados
+        date mes_referencia
+        text observacao
+        timestamp data_cadastro
     }
-    EMPRESTIMOS {
-        bigint id PK
-        bigint leitor_id FK
-        bigint livro_id FK
-        date data_retirada
-        date data_devolucao
+    METAS_AMBIENTAIS {
+        int id PK
+        int id_usuario FK
+        int id_indicador FK
+        varchar descricao
+        numeric valor_meta
+        date data_inicio
+        date data_fim
+        varchar status
     }
 ```
 
-Como ler: `||--o{` é "um para muitos". Um leitor faz zero ou vários empréstimos, e cada empréstimo é de exatamente um leitor.
+Como ler: `||--o{` é "um para muitos". Um usuário registra zero ou vários indicadores e define zero ou várias metas; cada indicador pode ter zero ou várias metas.
 
 ## Migrations
 
@@ -80,6 +106,6 @@ Todas existem em `src/main/resources/db/migration`, uma tabela por arquivo. A or
 
 | Versão | Arquivo | O que cria |
 |---|---|---|
-| V1 *(exemplo)* | `V1__criar_livros.sql` | Tabela `livros` |
-| V2 *(exemplo)* | `V2__criar_leitores.sql` | Tabela `leitores` |
-| V3 *(exemplo)* | `V3__criar_emprestimos.sql` | Tabela `emprestimos`, com as duas chaves estrangeiras |
+| V1 | `V1__criar_usuarios.sql` | Tabela `usuarios` |
+| V2 | `V2__criar_indicadores_ambientais.sql` | Tabela `indicadores_ambientais`, com a chave estrangeira para `usuarios` |
+| V3 | `V3__criar_metas_ambientais.sql` | Tabela `metas_ambientais`, com as duas chaves estrangeiras |

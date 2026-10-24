@@ -1,7 +1,5 @@
 # Contrato da API
 
-> O contrato é o que o cliente da API enxerga: rotas, JSON e status. Desenhe as rotas de **todas** as entidades. Nesta etapa precisam funcionar as três da API simples e as que as regras de negócio usam. As linhas marcadas com *(exemplo)* mostram o nível de detalhe esperado: apague e escreva as do grupo.
-
 ## Convenções
 
 | Item | Valor |
@@ -16,27 +14,29 @@
 
 Coluna **Funciona**: `sim` para as rotas que já respondem nesta etapa: as da API simples e as que as regras de negócio usam.
 
-### Livros *(exemplo)*
+### Usuários
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| `GET` | `/livros` | Lista os livros | Nenhuma | lista de `LivroResponseDTO` | `200` | Nenhum | sim |
-| `GET` | `/livros/{id}` | Busca um livro | Nenhuma | `LivroResponseDTO` | `200` | `404` | sim |
-| `POST` | `/livros` | Cadastra um livro | `LivroRequestDTO` | `LivroResponseDTO` | `201` | `400` | sim |
-| `PUT` | `/livros/{id}` | Atualiza um livro | `LivroRequestDTO` | `LivroResponseDTO` | `200` | `400`, `404` | não |
-| `DELETE` | `/livros/{id}` | Remove um livro | Nenhuma | Nenhuma (sem corpo) | `204` | `404` | não |
+| `GET` | `/usuarios` | Lista os usuários | Nenhuma | lista de `UsuarioResponseDTO` | `200` | Nenhum | sim |
+| `GET` | `/usuarios/{id}` | Busca um usuário | Nenhuma | `UsuarioResponseDTO` | `200` | `404` | sim |
+| `POST` | `/usuarios` | Cadastra um usuário | `UsuarioRequestDTO` | `UsuarioResponseDTO` | `201` | `400` | sim |
 
-### {{Recurso 2}}
+### Indicadores ambientais
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| ... | ... | ... | ... | ... | ... | ... | não |
+| `GET` | `/indicadores-ambientais` | Lista os indicadores | Nenhuma | lista de `IndicadorAmbientalResponseDTO` | `200` | Nenhum | sim |
+| `GET` | `/indicadores-ambientais/{id}` | Busca um indicador | Nenhuma | `IndicadorAmbientalResponseDTO` | `200` | `404` | sim |
+| `POST` | `/indicadores-ambientais` | Cadastra o registro mensal de indicadores | `IndicadorAmbientalRequestDTO` | `IndicadorAmbientalResponseDTO` | `201` | `400`, `404` | sim |
 
-### {{Recurso 3}}
+### Metas ambientais
 
 | Verbo | Caminho | O que faz | Entrada | Saída | Sucesso | Erros | Funciona |
 |---|---|---|---|---|---|---|---|
-| ... | ... | ... | ... | ... | ... | ... | não |
+| `GET` | `/metas-ambientais` | Lista as metas | Nenhuma | lista de `MetaAmbientalResponseDTO` | `200` | Nenhum | sim |
+| `GET` | `/metas-ambientais/{id}` | Busca uma meta | Nenhuma | `MetaAmbientalResponseDTO` | `200` | `404` | sim |
+| `POST` | `/metas-ambientais` | Cadastra uma meta ambiental | `MetaAmbientalRequestDTO` | `MetaAmbientalResponseDTO` | `201` | `400`, `404` | sim |
 
 ### Rotas que não são CRUD
 
@@ -44,9 +44,8 @@ As que nascem das regras de negócio do README. Estas precisam funcionar nesta e
 
 | Verbo | Caminho | O que faz | Regra | Sucesso | Erros |
 |---|---|---|---|---|---|
-| `POST` *(exemplo)* | `/emprestimos` | Registra um empréstimo e tira o livro da estante | R1 e R2 | `201` | `400`, `404` |
-| `PUT` *(exemplo)* | `/emprestimos/{id}/devolver` | Registra a devolução e libera o livro | R3 | `200` | `400`, `404` |
-| ... | ... | ... | ... | ... | ... |
+| `POST` | `/indicadores-ambientais` | Registra os indicadores do mês, recusando mês repetido e reciclados acima de gerados | R1 e R2 | `201` | `400`, `404` |
+| `POST` | `/metas-ambientais` | Cadastra a meta, recusando duplicidade de indicador e período | R3 | `201` | `400`, `404` |
 
 ## DTOs
 
@@ -54,22 +53,27 @@ O que entra não é igual ao que sai: o cliente não envia `id` nem campos que a
 
 | DTO | Direção | Campos | Validações |
 |---|---|---|---|
-| `LivroRequestDTO` *(exemplo)* | entrada | `titulo`, `isbn` | os dois obrigatórios (`@NotBlank`) |
-| `LivroResponseDTO` *(exemplo)* | saída | `id`, `titulo`, `isbn`, `disponivel` | Nenhuma |
-| ... | ... | ... | ... |
+| `UsuarioRequestDTO` | entrada | `nome`, `email`, `senha`, `tipoUsuario` | todos obrigatórios (`@NotBlank`); `email` com `@Email` |
+| `UsuarioResponseDTO` | saída | `id`, `nome`, `email`, `tipoUsuario`, `dataCadastro` | Nenhuma (a senha nunca é devolvida) |
+| `IndicadorAmbientalRequestDTO` | entrada | `idUsuario`, `mesReferencia`, `consumoAgua`, `consumoEnergia`, `residuosGerados`, `residuosReciclados`, `observacao` | todos obrigatórios (`@NotNull`), exceto `observacao`; valores numéricos `@PositiveOrZero` |
+| `IndicadorAmbientalResponseDTO` | saída | `id`, `idUsuario`, `mesReferencia`, `consumoAgua`, `consumoEnergia`, `residuosGerados`, `residuosReciclados`, `observacao` | Nenhuma |
+| `MetaAmbientalRequestDTO` | entrada | `idUsuario`, `idIndicador`, `descricao`, `valorMeta`, `dataInicio`, `dataFim` | todos obrigatórios (`@NotNull`/`@NotBlank`); `valorMeta` `@PositiveOrZero` |
+| `MetaAmbientalResponseDTO` | saída | `id`, `idUsuario`, `idIndicador`, `descricao`, `valorMeta`, `dataInicio`, `dataFim`, `status` | Nenhuma |
 
 ## Exemplos
 
 Um par requisição/resposta por entidade.
 
-### `POST /livros` *(exemplo)*
+### `POST /usuarios`
 
 Requisição:
 
 ```json
 {
-  "titulo": "Dom Casmurro",
-  "isbn": "978-85-359-0277-5"
+  "nome": "Maria Souza",
+  "email": "maria@empresa.com",
+  "senha": "123456",
+  "tipoUsuario": "GESTOR_AMBIENTAL"
 }
 ```
 
@@ -78,28 +82,90 @@ Resposta, `201 Created`:
 ```json
 {
   "id": 1,
-  "titulo": "Dom Casmurro",
-  "isbn": "978-85-359-0277-5",
-  "disponivel": true
+  "nome": "Maria Souza",
+  "email": "maria@empresa.com",
+  "tipoUsuario": "GESTOR_AMBIENTAL",
+  "dataCadastro": "2026-10-23T19:30:00"
+}
+```
+
+### `POST /indicadores-ambientais`
+
+Requisição:
+
+```json
+{
+  "idUsuario": 1,
+  "mesReferencia": "2026-09-01",
+  "consumoAgua": 420.5,
+  "consumoEnergia": 1850.0,
+  "residuosGerados": 250.0,
+  "residuosReciclados": 180.0,
+  "observacao": "Mês com produção normal"
+}
+```
+
+Resposta, `201 Created`:
+
+```json
+{
+  "id": 1,
+  "idUsuario": 1,
+  "mesReferencia": "2026-09-01",
+  "consumoAgua": 420.5,
+  "consumoEnergia": 1850.0,
+  "residuosGerados": 250.0,
+  "residuosReciclados": 180.0,
+  "observacao": "Mês com produção normal"
+}
+```
+
+### `POST /metas-ambientais`
+
+Requisição:
+
+```json
+{
+  "idUsuario": 1,
+  "idIndicador": 1,
+  "descricao": "Reduzir o consumo de água",
+  "valorMeta": 400.0,
+  "dataInicio": "2026-10-01",
+  "dataFim": "2026-12-31"
+}
+```
+
+Resposta, `201 Created`:
+
+```json
+{
+  "id": 1,
+  "idUsuario": 1,
+  "idIndicador": 1,
+  "descricao": "Reduzir o consumo de água",
+  "valorMeta": 400.0,
+  "dataInicio": "2026-10-01",
+  "dataFim": "2026-12-31",
+  "status": "pendente"
 }
 ```
 
 ## Erros
 
-Todo erro sai no mesmo formato. Este é o `404` de `GET /livros/999`:
+Todo erro sai no mesmo formato. Este é o `404` de `GET /usuarios/999`:
 
 ```json
 {
   "status": 404,
   "erro": "Not Found",
-  "mensagem": "Livro não encontrado: 999",
-  "caminho": "/livros/999",
-  "timestamp": "2026-10-06T19:30:00",
+  "mensagem": "Usuário não encontrado: 999",
+  "caminho": "/usuarios/999",
+  "timestamp": "2026-10-23T19:30:00",
   "campos": []
 }
 ```
 
-No `400` de validação, a lista `campos` traz um item por campo inválido: `{"campo": "titulo", "mensagem": "Título é obrigatório"}`.
+No `400` de validação, a lista `campos` traz um item por campo inválido: `{"campo": "email", "mensagem": "E-mail é obrigatório"}`.
 
 | Status | Quando acontece neste projeto |
 |---|---|
