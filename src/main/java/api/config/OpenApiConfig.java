@@ -25,12 +25,16 @@ public class OpenApiConfig {
         // Monta o documento com o bloco "info" preenchido.
         return new OpenAPI()
                 .info(new Info()
-                        // TROQUE: nome da API do grupo, em destaque no Swagger UI.
-                        .title("Projeto Final - NOME DO PROJETO")
+                        // Nome da API do grupo, em destaque no Swagger UI.
+                        .title("Projeto Final - EcoGestor")
                         // Versão do contrato -- aqui, a etapa em que ele foi publicado.
                         .version("Etapa 1")
-                        // TROQUE: tema, integrantes e o que a API faz (aceita Markdown).
-                        .description("API REST do Projeto Final da disciplina de Backend (SATC). "
+                        // Tema, integrantes e o que a API faz.
+                        .description("API REST do EcoGestor, Projeto Final da disciplina de Backend (SATC). "
+                                + "Tema: Sustentabilidade e Meio Ambiente. "
+                                + "Integrantes: Mirela, Paola e Alexsander. "
+                                + "Permite que empresas cadastrem usuários, registrem mensalmente seus indicadores "
+                                + "ambientais (água, energia e resíduos) e definam metas de sustentabilidade. "
                                 + "Todo corpo de requisição e de resposta é um **DTO** "
                                 + "e todo erro 400/404 sai no formato `ErroDTO`."));
     }
