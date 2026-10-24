@@ -22,7 +22,7 @@ Projeto Final da disciplina de Backend (Engenharia de Software, SATC). **Etapa 1
 |---|---|
 | Mirela | [@miniki7](https://github.com/miniki7) |
 | Paola | [@PaolaBrina](https://github.com/PaolaBrina) |
-| Alexsander | [@alexsanderantuneabarbosa](https://github.com/alexsanderantuneabarbosa) |
+| Alexsander | [@alexsanderantunesbarbosa](https://github.com/alexsanderantunesbarbosa) |
 
 ## O problema
 
