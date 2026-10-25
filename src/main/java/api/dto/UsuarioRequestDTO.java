@@ -16,7 +16,7 @@ public record UsuarioRequestDTO(
         @NotBlank(message = "Nome é obrigatório")
         String nome,
 
-        @Schema(description = "E-mail do usuário (único)", example = "maria@empresa.com")
+        @Schema(description = "E-mail do usuário (único)", example = "maria@email.com")
         @NotBlank(message = "E-mail é obrigatório")
         @Email(message = "E-mail inválido")
         String email,
@@ -25,7 +25,7 @@ public record UsuarioRequestDTO(
         @NotBlank(message = "Senha é obrigatória")
         String senha,
 
-        @Schema(description = "Tipo do usuário", example = "GESTOR_AMBIENTAL")
+        @Schema(description = "Tipo do usuário", example = "pessoa física")
         @NotBlank(message = "Tipo de usuário é obrigatório")
         String tipoUsuario
 

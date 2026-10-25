@@ -18,10 +18,10 @@ public record UsuarioResponseDTO(
         @Schema(description = "Nome do usuário", example = "Maria Souza")
         String nome,
 
-        @Schema(description = "E-mail do usuário", example = "maria@empresa.com")
+        @Schema(description = "E-mail do usuário", example = "maria@email.com")
         String email,
 
-        @Schema(description = "Tipo do usuário", example = "GESTOR_AMBIENTAL")
+        @Schema(description = "Tipo do usuário", example = "pessoa física")
         String tipoUsuario,
 
         @Schema(description = "Momento do cadastro", example = "2026-10-23T19:30:00")

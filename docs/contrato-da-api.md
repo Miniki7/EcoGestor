@@ -71,9 +71,9 @@ Requisição:
 ```json
 {
   "nome": "Maria Souza",
-  "email": "maria@empresa.com",
+  "email": "maria@email.com",
   "senha": "123456",
-  "tipoUsuario": "GESTOR_AMBIENTAL"
+  "tipoUsuario": "pessoa física"
 }
 ```
 
@@ -83,8 +83,8 @@ Resposta, `201 Created`:
 {
   "id": 1,
   "nome": "Maria Souza",
-  "email": "maria@empresa.com",
-  "tipoUsuario": "GESTOR_AMBIENTAL",
+  "email": "maria@email.com",
+  "tipoUsuario": "pessoa física",
   "dataCadastro": "2026-10-23T19:30:00"
 }
 ```
