@@ -11,11 +11,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record CampoErroDTO(
 
         // Nome do campo no JSON (o mesmo do componente do record).
-        @Schema(description = "Nome do campo no JSON", example = "titulo")
+        @Schema(description = "Nome do campo no JSON", example = "email")
         String campo,
 
         // O "message" da anotação de validação que falhou.
-        @Schema(description = "Mensagem da validação que falhou", example = "Título é obrigatório")
+        @Schema(description = "Mensagem da validação que falhou", example = "E-mail é obrigatório")
         String mensagem
 
 // O corpo do record fica vazio: tudo o que ele precisa, o compilador gera.

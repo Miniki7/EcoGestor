@@ -29,15 +29,15 @@ public record ErroDTO(
         String erro,
 
         // Mensagem pensada para o usuário final.
-        @Schema(description = "O que deu errado, em português", example = "Livro não encontrado: 999")
+        @Schema(description = "O que deu errado, em português", example = "Usuário não encontrado: 999")
         String mensagem,
 
         // Qual URL foi chamada.
-        @Schema(description = "Caminho da requisição", example = "/livros/999")
+        @Schema(description = "Caminho da requisição", example = "/usuarios/999")
         String caminho,
 
         // Quando aconteceu (horário do servidor).
-        @Schema(description = "Momento do erro", example = "2026-10-06T19:30:00")
+        @Schema(description = "Momento do erro", example = "2026-10-23T19:30:00")
         LocalDateTime timestamp,
 
         // Um item por campo inválido; lista vazia quando o erro não é de validação.
