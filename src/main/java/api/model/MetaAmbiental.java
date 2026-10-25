@@ -14,6 +14,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
+// CAMADA: Model
+// RESPONSABILIDADE: uma meta de sustentabilidade de um usuário para um indicador
+//                   ambiental, gravada na tabela metas_ambientais (migration V3).
+//                   Tem dois relacionamentos: muitas metas para um usuário e
+//                   muitas metas para um indicador.
+// SITUAÇÃO: implementada.
 @Entity
 @Table(name = "metas_ambientais")
 public class MetaAmbiental {

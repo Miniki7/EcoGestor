@@ -8,6 +8,10 @@ import java.time.LocalDate;
 // Importa a anotação que documenta cada campo no Swagger.
 import io.swagger.v3.oas.annotations.media.Schema;
 
+// CAMADA: DTO
+// RESPONSABILIDADE: o que a API devolve sobre uma meta. Usuário e indicador
+//                   saem só como id; o status nasce "pendente".
+// SITUAÇÃO: implementada.
 // O que a API devolve sobre uma meta.
 @Schema(description = "Meta ambiental")
 public record MetaAmbientalResponseDTO(
