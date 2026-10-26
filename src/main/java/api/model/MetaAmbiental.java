@@ -20,6 +20,7 @@ import jakarta.persistence.Table;
 //                   Tem dois relacionamentos: muitas metas para um usuário e
 //                   muitas metas para um indicador.
 // SITUAÇÃO: implementada.
+// Diz ao JPA que esta classe será persistida no banco.
 @Entity
 @Table(name = "metas_ambientais")
 public class MetaAmbiental {

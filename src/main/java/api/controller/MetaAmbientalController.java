@@ -41,7 +41,7 @@ import api.service.MetaAmbientalService;
 //                  GET /metas-ambientais/{id}.
 // SITUAÇÃO: implementada.
 // Agrupa todos os endpoints desta classe sob "Metas ambientais" no Swagger UI.
-@Tag(name = "Metas ambientais", description = "Cadastro e consulta das metas de sustentabilidade, com a regra R3")
+@Tag(name = "Metas ambientais", description = "Cadastro e consulta das metas de sustentabilidade (regra R3)")
 // Informa ao Spring que a classe atende requisições REST.
 @RestController
 // Adiciona /metas-ambientais antes de todas as rotas abaixo.
@@ -62,7 +62,7 @@ public class MetaAmbientalController {
             description = "R3: o usuário só pode ter uma meta por indicador em cada mês coberto pelo período "
                     + "de vigência. O indicador precisa ser do usuário informado. "
                     + "id e status são definidos pela API: toda meta nasce \"pendente\".")
-    @ApiResponse(responseCode = "201", description = "Meta cadastrada: o corpo já traz o id gerado")
+    @ApiResponse(responseCode = "201", description = "Meta cadastrada")
     @ApiResponse(responseCode = "400", description = "Corpo inválido, período invertido, indicador de outro "
             + "usuário ou regra R3 violada (a mensagem diz qual)",
             content = @Content(schema = @Schema(implementation = ErroDTO.class)))
@@ -77,8 +77,8 @@ public class MetaAmbientalController {
     }
 
     // Mapeia GET /metas-ambientais.
-    @Operation(summary = "Lista as metas ambientais", description = "Sem metas cadastradas, a lista vem vazia, não 404.")
-    @ApiResponse(responseCode = "200", description = "Lista de metas (pode vir vazia)")
+    @Operation(summary = "Lista as metas ambientais")
+    @ApiResponse(responseCode = "200", description = "Lista de metas")
     @GetMapping
     public List<MetaAmbientalResponseDTO> listar() {
         // Delega a listagem para o service.

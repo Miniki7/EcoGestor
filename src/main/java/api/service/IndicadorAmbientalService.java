@@ -2,6 +2,7 @@
 package api.service;
 
 // Importa a lista devolvida nas consultas.
+import java.time.YearMonth;
 import java.util.List;
 
 // Importa a anotação que registra a classe como serviço Spring.
@@ -19,10 +20,10 @@ import api.model.Usuario;
 import api.repository.IndicadorAmbientalRepository;
 import api.repository.UsuarioRepository;
 
-// Camada: Service
-// Responsabilidade: cadastrar, listar e buscar indicadores ambientais, aplicando as regras de negócio antes de persistir.
-// Regras: R1 (um registro por usuário e mês de referência) e R2 (resíduos reciclados não podem superar os resíduos gerados).
-// Rotas atendidas: POST /indicadores-ambientais, GET /indicadores-ambientais e GET /indicadores-ambientais/{id}.
+// CAMADA: Service
+// RESPONSABILIDADE: cadastrar, listar e buscar indicadores ambientais, aplicando as regras de negócio antes de persistir.
+// REGRAS: R1 (um registro por usuário e mês de referência) e R2 (resíduos reciclados não podem superar os resíduos gerados).
+// ROTAS ATENDIDAS: POST /indicadores-ambientais, GET /indicadores-ambientais e GET /indicadores-ambientais/{id}.
 
 // @Service: camada de regra de negócio -- o Controller fala com o Service,
 // nunca direto com o Repository. As regras R1 e R2 vivem aqui.
@@ -65,9 +66,12 @@ public class IndicadorAmbientalService {
                     "R2: a quantidade de resíduos reciclados não pode superar a quantidade de resíduos gerados.");
         }
         // 3. R1: o usuário não pode ter dois registros no mesmo mês.
-        if (repository.existsByUsuarioIdAndMesReferencia(dto.idUsuario(), dto.mesReferencia())) {
+        YearMonth mes = YearMonth.from(dto.mesReferencia());
+
+        if (repository.existsByUsuarioIdAndMesReferenciaBetween(dto.idUsuario(), mes.atDay(1), mes.atEndOfMonth())) {
             throw new RegraDeNegocioException(
-                    "R1: o usuário já possui um registro ambiental para este mês de referência.");
+                "Já existe um indicador cadastrado para o mês " + mes
+            );
         }
         // 4. DTO + usuário -> entidade nova, e o INSERT acontece no save.
         IndicadorAmbiental salvo = repository.save(mapper.toEntity(dto, usuario));

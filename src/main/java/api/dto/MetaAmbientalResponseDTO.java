@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 // RESPONSABILIDADE: o que a API devolve sobre uma meta. Usuário e indicador
 //                   saem só como id; o status nasce "pendente".
 // SITUAÇÃO: implementada.
-// O que a API devolve sobre uma meta.
+// Descreve o DTO inteiro na seção "Schemas" do Swagger.
 @Schema(description = "Meta ambiental")
 public record MetaAmbientalResponseDTO(
 

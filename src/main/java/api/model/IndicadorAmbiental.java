@@ -15,6 +15,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
+// CAMADA: Model
+// RESPONSABILIDADE: um indicador ambiental de um usuário, gravado na tabela de indicadores_ambientais (migration V2).
+// SITUAÇÃO: implementada.
+// Diz ao JPA que esta classe será persistida no banco.
 @Entity
 @Table(name = "indicadores_ambientais")
 public class IndicadorAmbiental {

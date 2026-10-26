@@ -10,8 +10,8 @@ Os 10 critérios que serão avaliados na revisão do código, descritos em `Aula
 |---|---|---|
 | P1 A API sobe seguindo o README | | `README.md`, seção "Como executar" |
 | P2 Cada classe no pacote da sua camada | | `src/main/java/api/` |
-| P3 Migrations e `@Entity` de todas as tabelas, e a API sobe | | {{arquivos em db/migration/ e model/}} |
-| P4 DTOs de entrada e de saída de todas as entidades | | {{classes em dto/}} |
+| P3 Migrations e `@Entity` de todas as tabelas, e a API sobe | | `V1` a `V3` em `db/migration/` (as chaves estrangeiras estão na `V2` e `V3`); `Usuarios`, `Indicadores ambientais` e `Metas ambientais` em `model/` |
+| P4 DTOs de entrada e de saída de todas as entidades | | Seis records em `dto/`|
 | P5 Repository, Mapper, Service e Controller de todas, com o comentário no topo, e o mapa da estrutura | | {{classes}} e `README.md`, seção "Arquitetura" |
 | P6 API simples: `POST`, `GET` e `GET /{id}`, com `400` e `404` | | {{classe do Controller}} |
 | P7 No mínimo 3 regras de negócio implementadas, com `400` quando violadas | | {{classes e rotas de cada regra}} |

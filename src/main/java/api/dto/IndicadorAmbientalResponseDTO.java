@@ -8,7 +8,10 @@ import java.time.LocalDate;
 // Importa a anotação que documenta cada campo no Swagger.
 import io.swagger.v3.oas.annotations.media.Schema;
 
-// O que a API devolve sobre os indicadores de um mês.
+// CAMADA: DTO
+// RESPONSABILIDADE: o que a API devolve sobre um indicador.
+// SITUAÇÃO: implementada.
+// Descreve o DTO inteiro na seção "Schemas" do Swagger.
 @Schema(description = "Indicadores ambientais de um mês")
 public record IndicadorAmbientalResponseDTO(
 

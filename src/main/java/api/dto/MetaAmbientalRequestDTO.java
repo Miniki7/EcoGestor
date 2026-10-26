@@ -21,7 +21,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 //                   decide é a API. Os limites de tamanho são os da migration V3,
 //                   para o banco nunca receber um valor que ele recusaria.
 // SITUAÇÃO: implementada.
-// O que o cliente pode enviar para cadastrar uma meta.
+// Descreve o DTO inteiro na seção "Schemas" do Swagger.
 @Schema(description = "Dados para cadastrar uma meta ambiental")
 public record MetaAmbientalRequestDTO(
 

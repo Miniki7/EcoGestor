@@ -10,11 +10,12 @@ import api.mapper.UsuarioMapper;
 import api.model.Usuario;
 import api.repository.UsuarioRepository;
 
-// Camada: Service
-// Responsabilidade: cadastrar, listar e buscar usuários, coordenando o Repository e o Mapper sem expor entidades ao Controller.
-// Regras: o e-mail deve ser único, garantido pela restrição UNIQUE da tabela;não há regra de negócio adicional implementada nesta camada.
-// Rotas atendidas: POST /usuarios, GET /usuarios e GET /usuarios/{id}.
-
+// CAMADA: Service
+// RESPONSABILIDADE: cadastrar, listar e buscar usuários, coordenando o Repository e o Mapper sem expor entidades ao Controller.
+// REGRAS: nenhuma das R1 a R3. O e-mail único é restrição de integridade: recusado com 400 se já existir.
+// ROTAS ATENDIDAS: POST /usuarios, GET /usuarios e 
+//                  GET /usuarios/{id}.
+// SITUAÇÃO: implementada.
 @Service
 public class UsuarioService {
 
@@ -27,7 +28,10 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
-        // O e-mail único é garantido pelo banco (UNIQUE); a violação vira 400 no ApiExceptionHandler.
+        // Checa email antes do save.
+        if (repository.existsByEmailIgnoreCase(dto.email())) {
+          throw new RegraDeNegocioException("Já existe um usuário cadastrado com o e-mail " + dto.email());
+        }
         Usuario salvo = repository.save(mapper.toEntity(dto));
         return mapper.toResponse(salvo);
     }

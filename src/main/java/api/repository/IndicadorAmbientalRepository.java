@@ -9,13 +9,14 @@ import api.model.IndicadorAmbiental;
 // Importa a interface pronta de operações CRUD do Spring Data JPA.
 import org.springframework.data.jpa.repository.JpaRepository;
 
-// Camada: Repository
-// Responsabilidade: fornecer operações de persistência e consulta de IndicadorAmbiental, incluindo a verificação usada pela R1.
+// CAMADA: Repository
+// RESPONSABILIDADE: fornecer operações de persistência e consulta de IndicadorAmbiental, incluindo a verificação usada pela R1.
+// SITUAÇÃO: implementada.
 // Declara um repositório para a entidade IndicadorAmbiental.
 public interface IndicadorAmbientalRepository extends JpaRepository<IndicadorAmbiental, Integer> {
     // O Spring cria a implementação em runtime usando IndicadorAmbiental como entidade e Integer como tipo do id.
 
     // R1: "Usuario" + "Id" navega pelo relacionamento --
     // vira WHERE id_usuario = ? AND mes_referencia = ?
-    boolean existsByUsuarioIdAndMesReferencia(Integer usuarioId, LocalDate mesReferencia);
+    boolean existsByUsuarioIdAndMesReferenciaBetween(Integer usuarioId, LocalDate dataInicio, LocalDate dataFim);
 }

@@ -41,13 +41,13 @@ import api.dto.IndicadorAmbientalResponseDTO;
 import api.service.IndicadorAmbientalService;
 
 // Camada: Controller
-// Responsabilidade: receber as requisições de indicadores, validar o DTO de entrada e devolver respostas com os status HTTP corretos.
-// Rotas atendidas: POST /indicadores-ambientais, GET /indicadores-ambientais e GET /indicadores-ambientais/{id}.
-
+// Responsabilidade: receber as requisições de indicadores, validar o DTO de
+//                   entrada e devolver respostas com os status HTTP corretos.
+// Rotas atendidas: POST /indicadores-ambientais, GET /indicadores-ambientais e 
+//                  GET /indicadores-ambientais/{id}.
+// SITUAÇÃO: implementada.
 // Agrupa todos os endpoints desta classe sob "Indicadores ambientais" no Swagger UI.
 @Tag(name = "Indicadores ambientais", description = "Registro mensal de consumo de água, energia e resíduos (regras R1 e R2)")
-// Permite que o frontend local faça chamadas para a API.
-@CrossOrigin(origins = "*")
 // Informa ao Spring que a classe atende requisições REST.
 @RestController
 // Adiciona /indicadores-ambientais antes de todas as rotas abaixo.
@@ -65,7 +65,7 @@ public class IndicadorAmbientalController {
 
     // Mapeia GET /indicadores-ambientais.
     @Operation(summary = "Lista os indicadores ambientais")
-    @ApiResponse(responseCode = "200", description = "Lista de indicadores (pode vir vazia)")
+    @ApiResponse(responseCode = "200", description = "Lista de indicadores")
     @GetMapping
     public List<IndicadorAmbientalResponseDTO> listar() {
         // Delega a listagem para a camada de serviço.
@@ -76,7 +76,7 @@ public class IndicadorAmbientalController {
     @Operation(summary = "Cadastra o registro mensal de indicadores",
             description = "R1: um usuário não pode ter dois registros no mesmo mês. "
                     + "R2: resíduos reciclados não podem superar os gerados.")
-    @ApiResponse(responseCode = "201", description = "Indicador criado -- o corpo já traz o id gerado")
+    @ApiResponse(responseCode = "201", description = "Indicador cadastrado")
     @ApiResponse(responseCode = "400", description = "Corpo inválido ou regra R1/R2 violada",
             content = @Content(schema = @Schema(implementation = ErroDTO.class)))
     @ApiResponse(responseCode = "404", description = "O idUsuario informado não existe",

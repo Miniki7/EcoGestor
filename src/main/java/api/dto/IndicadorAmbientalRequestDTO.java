@@ -12,7 +12,10 @@ import jakarta.validation.constraints.PositiveOrZero;
 // Importa a anotação que documenta cada campo no Swagger.
 import io.swagger.v3.oas.annotations.media.Schema;
 
-// O que o cliente pode enviar para registrar os indicadores de um mês.
+// CAMADA: DTO
+// RESPONSABILIDADE: o que envia para cadastrar um indicador.
+// SITUAÇÃO: implementada.
+// Descreve o DTO inteiro na seção "Schemas" do Swagger.
 @Schema(description = "Dados para registrar os indicadores ambientais de um mês")
 public record IndicadorAmbientalRequestDTO(
 

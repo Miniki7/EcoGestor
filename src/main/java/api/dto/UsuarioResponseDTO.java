@@ -8,7 +8,10 @@ import java.time.LocalDateTime;
 // Importa a anotação que documenta cada campo no Swagger.
 import io.swagger.v3.oas.annotations.media.Schema;
 
-// O que a API devolve sobre um usuário (nunca inclui a senha).
+// CAMADA: DTO
+// RESPONSABILIDADE: o que a API devolve sobre um usuário.
+// SITUAÇÃO: implementada.
+// Descreve o DTO inteiro na seção "Schemas" do Swagger.
 @Schema(description = "Usuário cadastrado")
 public record UsuarioResponseDTO(
 

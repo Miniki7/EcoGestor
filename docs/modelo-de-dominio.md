@@ -59,7 +59,6 @@ Uma meta de sustentabilidade definida para um indicador e um período.
 | IndicadorAmbiental | Usuario | muitos para um | `indicadores_ambientais.id_usuario` referencia `usuarios(id)` | `@ManyToOne` em `IndicadorAmbiental` |
 | MetaAmbiental | Usuario | muitos para um | `metas_ambientais.id_usuario` referencia `usuarios(id)` | `@ManyToOne` em `MetaAmbiental` |
 | MetaAmbiental | IndicadorAmbiental | muitos para um | `metas_ambientais.id_indicador` referencia `indicadores_ambientais(id)` | `@ManyToOne` em `MetaAmbiental` |
-| Usuario | IndicadorAmbiental | um para muitos | lado inverso, sem coluna própria | `@OneToMany(mappedBy = "usuario")` em `Usuario` |
 
 ## Diagrama ER
 

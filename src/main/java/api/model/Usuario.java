@@ -13,7 +13,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
-// Marca a classe como entidade gerenciada pelo Hibernate.
+// CAMADA: Model
+// RESPONSABILIDADE: uma pessoa cadastrada que pode adicionar indicadores e metas, gravado na tabela de usuarios (migration V1).
+// SITUAÇÃO: implementada.
+// Diz ao JPA que esta classe será persistida no banco.
 @Entity
 // Liga a entidade à tabela criada pela migration.
 @Table(name = "usuarios")

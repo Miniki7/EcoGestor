@@ -8,7 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 // Importa a anotação que documenta cada campo no Swagger.
 import io.swagger.v3.oas.annotations.media.Schema;
 
-// O que o cliente pode enviar para cadastrar um usuário.
+// CAMADA: DTO
+// RESPONSABILIDADE: o que envia para cadastrar um usuario.
+// SITUAÇÃO: implementada.
+// Descreve o DTO inteiro na seção "Schemas" do Swagger.
 @Schema(description = "Dados para cadastrar um usuário")
 public record UsuarioRequestDTO(
 
