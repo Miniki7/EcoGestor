@@ -59,8 +59,9 @@ public class UsuarioController {
     @PostMapping
     @ApiResponse(responseCode = "201", description = "Usuário cadastrado")
     @Operation(summary = "Cadastra um usuário")
-    public UsuarioResponseDTO criar(@Valid @RequestBody UsuarioRequestDTO dto) {
-        return service.criar(dto);
+    public ResponseEntity<UsuarioResponseDTO> criar(@Valid @RequestBody UsuarioRequestDTO dto) {
+        // Devolve 201 Created com o usuário no corpo, como está no contrato.
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.criar(dto));
     }
 
     @GetMapping

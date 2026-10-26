@@ -70,7 +70,7 @@ public class IndicadorAmbientalService {
 
         if (repository.existsByUsuarioIdAndMesReferenciaBetween(dto.idUsuario(), mes.atDay(1), mes.atEndOfMonth())) {
             throw new RegraDeNegocioException(
-                "Já existe um indicador cadastrado para o mês " + mes
+                "R1: o usuário " + dto.idUsuario() + " já tem um indicador cadastrado para o mês " + mes
             );
         }
         // 4. DTO + usuário -> entidade nova, e o INSERT acontece no save.
