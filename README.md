@@ -46,7 +46,7 @@ O EcoGestor centraliza essas informações em uma API, permitindo cadastrar usu�
 |---|---|---|---|
 | R1 | Um usuário não pode ter mais de um indicador ambiental para o mesmo mês de referência | `IndicadorAmbientalService` | `POST /indicadores-ambientais` |
 | R2 | A quantidade de resíduos reciclados não pode ser maior que a de resíduos gerados no mesmo indicador | `IndicadorAmbientalService` | `POST /indicadores-ambientais` |
-| R3 | Um usuário não pode cadastrar duas metas para o mesmo indicador e o mesmo período de vigência | `MetaAmbientalService` | `POST /metas-ambientais` |
+| R3 | Um usuário só pode ter uma meta para cada indicador em cada mês coberto pelo período de vigência. Se a vigência abranger vários meses, cada um deles fica ocupado por essa meta. | `MetaAmbientalService` | `POST /metas-ambientais` |
 
 **Fora do escopo:** integração com sensores, leitura automática de contas, frontend completo e geração avançada de relatórios ambientais.
 

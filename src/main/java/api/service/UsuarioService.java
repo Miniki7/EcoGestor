@@ -10,6 +10,11 @@ import api.mapper.UsuarioMapper;
 import api.model.Usuario;
 import api.repository.UsuarioRepository;
 
+// Camada: Service
+// Responsabilidade: cadastrar, listar e buscar usuários, coordenando o Repository e o Mapper sem expor entidades ao Controller.
+// Regras: o e-mail deve ser único, garantido pela restrição UNIQUE da tabela;não há regra de negócio adicional implementada nesta camada.
+// Rotas atendidas: POST /usuarios, GET /usuarios e GET /usuarios/{id}.
+
 @Service
 public class UsuarioService {
 

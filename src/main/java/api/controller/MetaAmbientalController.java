@@ -59,8 +59,8 @@ public class MetaAmbientalController {
 
     // @Valid confere o formato; as regras de negócio quem confere é o Service.
     @Operation(summary = "Cadastra uma meta ambiental",
-            description = "R3: o usuário não pode ter duas metas para o mesmo indicador com períodos de "
-                    + "vigência que se sobreponham. O indicador precisa ser do usuário informado. "
+            description = "R3: o usuário só pode ter uma meta por indicador em cada mês coberto pelo período "
+                    + "de vigência. O indicador precisa ser do usuário informado. "
                     + "id e status são definidos pela API: toda meta nasce \"pendente\".")
     @ApiResponse(responseCode = "201", description = "Meta cadastrada: o corpo já traz o id gerado")
     @ApiResponse(responseCode = "400", description = "Corpo inválido, período invertido, indicador de outro "

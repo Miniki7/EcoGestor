@@ -6,7 +6,8 @@ import api.dto.UsuarioRequestDTO;
 import api.dto.UsuarioResponseDTO;
 import api.model.Usuario;
 
-// Converte DTO em entidade e entidade em DTO.
+// Camada: Mapper
+// Responsabilidade: converter UsuarioRequestDTO em Usuario e Usuario em UsuarioResponseDTO, sem incluir a senha na resposta.
 @Component
 public class UsuarioMapper {
 

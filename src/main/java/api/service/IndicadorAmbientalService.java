@@ -19,6 +19,11 @@ import api.model.Usuario;
 import api.repository.IndicadorAmbientalRepository;
 import api.repository.UsuarioRepository;
 
+// Camada: Service
+// Responsabilidade: cadastrar, listar e buscar indicadores ambientais, aplicando as regras de negócio antes de persistir.
+// Regras: R1 (um registro por usuário e mês de referência) e R2 (resíduos reciclados não podem superar os resíduos gerados).
+// Rotas atendidas: POST /indicadores-ambientais, GET /indicadores-ambientais e GET /indicadores-ambientais/{id}.
+
 // @Service: camada de regra de negócio -- o Controller fala com o Service,
 // nunca direto com o Repository. As regras R1 e R2 vivem aqui.
 @Service

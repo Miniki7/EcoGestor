@@ -40,6 +40,10 @@ import api.dto.IndicadorAmbientalResponseDTO;
 // Importa a camada que contém as regras do indicador.
 import api.service.IndicadorAmbientalService;
 
+// Camada: Controller
+// Responsabilidade: receber as requisições de indicadores, validar o DTO de entrada e devolver respostas com os status HTTP corretos.
+// Rotas atendidas: POST /indicadores-ambientais, GET /indicadores-ambientais e GET /indicadores-ambientais/{id}.
+
 // Agrupa todos os endpoints desta classe sob "Indicadores ambientais" no Swagger UI.
 @Tag(name = "Indicadores ambientais", description = "Registro mensal de consumo de água, energia e resíduos (regras R1 e R2)")
 // Permite que o frontend local faça chamadas para a API.

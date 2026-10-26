@@ -18,6 +18,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+// Camada: Controller
+// Responsabilidade: receber e validar as requisições de usuários e devolver respostas em DTOs com os status HTTP correspondentes.
+// Rotas atendidas: POST /usuarios, GET /usuarios e GET /usuarios/{id}.
+
 @RestController
 @RequestMapping("/usuarios")
 @Tag(name = "Usuários", description = "Cadastro e consulta de usuários")

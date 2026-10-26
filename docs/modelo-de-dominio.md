@@ -48,6 +48,10 @@ Uma meta de sustentabilidade definida para um indicador e um período.
 | `dataFim` | `LocalDate` | `data_fim` | sim | Não pode ser anterior a `dataInicio` (`CHECK` no banco) |
 | `status` | `String` | `status` | sim | Até 100 caracteres. Nasce `pendente` |
 
+## Regra de negócio das metas
+
+**R3:** um usuário só pode ter uma meta para o mesmo indicador ambiental em cada mês coberto pelo período de vigência. Uma meta que vai de janeiro a março ocupa os três meses; outra meta para o mesmo usuário e indicador não pode ocupar janeiro, fevereiro ou março, ainda que as datas dentro do mês não coincidam. A validação é feita no `MetaAmbientalService` durante `POST /metas-ambientais` e a violação retorna `400`.
+
 ## Relacionamentos
 
 | De | Para | Tipo | No banco | No código |

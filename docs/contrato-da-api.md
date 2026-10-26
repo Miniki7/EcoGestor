@@ -36,7 +36,7 @@ Coluna **Funciona**: `sim` para as rotas que já respondem nesta etapa: as da AP
 |---|---|---|---|---|---|---|---|
 | `GET` | `/metas-ambientais` | Lista as metas | Nenhuma | lista de `MetaAmbientalResponseDTO` | `200` | Nenhum | sim |
 | `GET` | `/metas-ambientais/{id}` | Busca uma meta | Nenhuma | `MetaAmbientalResponseDTO` | `200` | `404` | sim |
-| `POST` | `/metas-ambientais` | Cadastra uma meta ambiental | `MetaAmbientalRequestDTO` | `MetaAmbientalResponseDTO` | `201` | `400`, `404` | sim |
+| `POST` | `/metas-ambientais` | Cadastra uma meta; só permite uma meta por mês para o mesmo usuário e indicador, considerando todos os meses cobertos pela vigência | `MetaAmbientalRequestDTO` | `MetaAmbientalResponseDTO` | `201` | `400`, `404` | sim |
 
 ### Rotas que não são CRUD
 
@@ -45,7 +45,7 @@ As que nascem das regras de negócio do README. Estas precisam funcionar nesta e
 | Verbo | Caminho | O que faz | Regra | Sucesso | Erros |
 |---|---|---|---|---|---|
 | `POST` | `/indicadores-ambientais` | Registra os indicadores do mês, recusando mês repetido e reciclados acima de gerados | R1 e R2 | `201` | `400`, `404` |
-| `POST` | `/metas-ambientais` | Cadastra a meta, recusando duplicidade de indicador e período | R3 | `201` | `400`, `404` |
+| `POST` | `/metas-ambientais` | Recusa uma segunda meta para o mesmo usuário e indicador em qualquer mês coberto pela vigência da meta | R3 | `201` | `400`, `404` |
 
 ## DTOs
 

@@ -2,6 +2,7 @@
 package api.service;
 
 // Importa a lista devolvida na listagem.
+import java.time.YearMonth;
 import java.util.List;
 
 // Importa a anotação que registra a classe como serviço Spring.
@@ -27,8 +28,8 @@ import api.repository.UsuarioRepository;
 // RESPONSABILIDADE: cadastrar, listar e buscar metas ambientais. Recebe DTO,
 //                   aplica as regras, usa o mapper e devolve DTO: a entidade
 //                   MetaAmbiental não sobe para o Controller.
-// REGRAS: R3 (um usuário não pode ter duas metas para o mesmo indicador com
-//         períodos de vigência que se sobreponham).
+// REGRAS: R3 (um usuário só pode ter uma meta por indicador em cada mês coberto
+//         pelo período de vigência).
 // ROTAS ATENDIDAS: POST /metas-ambientais, GET /metas-ambientais e
 //                  GET /metas-ambientais/{id}.
 // SITUAÇÃO: implementada.
@@ -89,14 +90,23 @@ public class MetaAmbientalService {
                     + " não pertence ao usuário " + usuario.getId());
         }
 
-        // R3: o usuário já tem meta para este indicador num período que se cruza
-        // com o novo? Barra períodos iguais e também os que se sobrepõem em parte.
-        if (repository.existsByUsuarioIdAndIndicadorIdAndDataInicioLessThanEqualAndDataFimGreaterThanEqual(
-                usuario.getId(), indicador.getId(), dto.dataFim(), dto.dataInicio())) {
+        // R3: cada mês coberto pela vigência conta como ocupado para este usuário
+        // e indicador, mesmo que as datas dentro do mês não coincidam.
+        YearMonth inicioNovo = YearMonth.from(dto.dataInicio());
+        YearMonth fimNovo = YearMonth.from(dto.dataFim());
+        boolean jaExisteMetaNoPeriodo = repository
+                .findAllByUsuarioIdAndIndicadorId(usuario.getId(), indicador.getId())
+                .stream()
+                .anyMatch(existente -> {
+                    YearMonth inicioExistente = YearMonth.from(existente.getDataInicio());
+                    YearMonth fimExistente = YearMonth.from(existente.getDataFim());
+                    return !inicioExistente.isAfter(fimNovo) && !fimExistente.isBefore(inicioNovo);
+                });
+        if (jaExisteMetaNoPeriodo) {
             // A mensagem vai para o cliente, dentro do ErroDTO, com status 400.
             throw new RegraDeNegocioException("R3: o usuário " + usuario.getId()
                     + " já tem uma meta para o indicador " + indicador.getId()
-                    + " com período de vigência que se sobrepõe a " + dto.dataInicio() + " até " + dto.dataFim());
+                    + " em pelo menos um mês entre " + inicioNovo + " e " + fimNovo);
         }
 
         // O mapper monta a meta nova, já ligada ao usuário e ao indicador.

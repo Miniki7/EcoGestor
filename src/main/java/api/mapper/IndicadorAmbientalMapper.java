@@ -9,6 +9,8 @@ import api.dto.IndicadorAmbientalResponseDTO;
 import api.model.IndicadorAmbiental;
 import api.model.Usuario;
 
+// Camada: Mapper
+// Responsabilidade: converter IndicadorAmbientalRequestDTO em entidade e entidades em IndicadorAmbientalResponseDTO, inclusive listas.
 @Component
 public class IndicadorAmbientalMapper {
 
